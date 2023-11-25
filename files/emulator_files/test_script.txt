@@ -1,0 +1,8 @@
+cd root/dir1/subdir2
+pwd
+cd ../../
+ls
+cd ~/root/dir1
+ls
+cat ../textfile.txt ./subdir1/test.py
+incorrect one
