@@ -1,0 +1,46 @@
+digraph "aiogram package dependencies" {
+	aiogram
+	aiogram -> certifi
+	aiogram -> "magic-filter"
+	aiogram -> "typing-extensions"
+	aiogram -> aiohttp
+	aiogram -> aiofiles
+	aiogram -> pydantic
+	aiofiles
+	aiohttp
+	aiohttp -> attrs
+	aiohttp -> "async-timeout"
+	aiohttp -> multidict
+	aiohttp -> yarl
+	aiohttp -> frozenlist
+	aiohttp -> aiosignal
+	certifi
+	"magic-filter"
+	pydantic
+	pydantic -> "importlib-metadata"
+	pydantic -> "pydantic-core"
+	pydantic -> "annotated-types"
+	pydantic -> "typing-extensions"
+	"typing-extensions"
+	attrs
+	attrs -> "importlib-metadata"
+	"async-timeout"
+	"async-timeout" -> "typing-extensions"
+	multidict
+	yarl
+	yarl -> idna
+	yarl -> multidict
+	yarl -> "typing-extensions"
+	frozenlist
+	aiosignal
+	aiosignal -> frozenlist
+	"importlib-metadata"
+	"importlib-metadata" -> zipp
+	"importlib-metadata" -> "typing-extensions"
+	"pydantic-core"
+	"pydantic-core" -> "typing-extensions"
+	"annotated-types"
+	"annotated-types" -> "typing-extensions"
+	idna
+	zipp
+}

@@ -1,40 +1,27 @@
-digraph "Package dependencies requests" {
+digraph "requests package dependencies" {
 	requests
-	"charset-normalizer"
-	requests -> "charset-normalizer"
-	idna
-	requests -> idna
-	urllib3
-	requests -> urllib3
-	certifi
-	requests -> certifi
-	pysocks
-	requests -> pysocks
-	chardet
 	requests -> chardet
+	requests -> pysocks
+	requests -> idna
+	requests -> "charset-normalizer"
+	requests -> urllib3
+	requests -> certifi
 	"charset-normalizer"
 	idna
 	urllib3
-	zstandard
-	urllib3 -> zstandard
-	pysocks
 	urllib3 -> pysocks
-	brotlicffi
-	urllib3 -> brotlicffi
-	brotli
 	urllib3 -> brotli
+	urllib3 -> brotlicffi
+	urllib3 -> zstandard
 	certifi
 	pysocks
 	chardet
-	zstandard
-	cffi
-	zstandard -> cffi
-	brotlicffi
-	cffi
-	brotlicffi -> cffi
 	brotli
+	brotlicffi
+	brotlicffi -> cffi
+	zstandard
+	zstandard -> cffi
 	cffi
-	pycparser
 	cffi -> pycparser
 	pycparser
 }

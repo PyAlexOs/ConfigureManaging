@@ -1,0 +1,25 @@
+digraph "flask package dependencies" {
+	flask
+	flask -> werkzeug
+	flask -> click
+	flask -> itsdangerous
+	flask -> "importlib-metadata"
+	flask -> jinja2
+	flask -> blinker
+	werkzeug
+	werkzeug -> markupsafe
+	jinja2
+	jinja2 -> markupsafe
+	itsdangerous
+	click
+	click -> "importlib-metadata"
+	click -> colorama
+	blinker
+	"importlib-metadata"
+	"importlib-metadata" -> zipp
+	"importlib-metadata" -> "typing-extensions"
+	markupsafe
+	colorama
+	zipp
+	"typing-extensions"
+}

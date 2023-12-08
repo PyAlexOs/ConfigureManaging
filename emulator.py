@@ -10,7 +10,7 @@ def get_files(filesystem: zipfile.ZipFile, current_path: str) -> dict:
         in the current directory, the hierarchy level of the current directory,
         the maximum length of the file name in the current directory, the number
         of file names that can be output in one line, taking into account the
-        alignment and the maximum length of the file name """
+        alignment and the maximum length of the file name. """
 
     name_length = 1
     hierarchy_level = len(current_path.strip("/").split("/"))
@@ -37,11 +37,11 @@ def get_files(filesystem: zipfile.ZipFile, current_path: str) -> dict:
 
 
 def ls(filesystem: zipfile.ZipFile, current_path: str):
-    """ Displays all files and folders in the current directory """
+    """ Displays all files and folders in the current directory. """
 
     data = get_files(filesystem, current_path)
     c = 0
-    for entity in data['entities']:
+    for entity in sorted(data['entities']):
         c += 1
         sys.stdout.write(entity + (" " * (data['length'] - len(entity) + 4)))
         if c >= data['per_line']:
@@ -52,7 +52,7 @@ def ls(filesystem: zipfile.ZipFile, current_path: str):
 
 def get_path(filesystem: zipfile.ZipFile, data: dict, current_path: str, path: str) -> str:
     """ Tries to get to the path from the current_path, if there is no such path,
-        returns the path passed as an argument """
+        returns the path passed as an argument. """
 
     default = current_path
     for level in path.strip("/").split("/"):
@@ -67,13 +67,14 @@ def get_path(filesystem: zipfile.ZipFile, data: dict, current_path: str, path: s
 
 
 def cd(filesystem: zipfile.ZipFile, current_path: str, path: str) -> str:
-    """ Returns the updated path """
+    """ Returns the updated path. """
 
     if path.startswith(".."):
         path = path[2::]
         if path.startswith("/"):
             path = path[1::]
-        return cd(filesystem, "/" + '/'.join(current_path.strip("/").split("/")[:-1:]), path)
+        parent_directory = current_path.strip("/").split("/")[:-1:]
+        return cd(filesystem, "/" + '/'.join(parent_directory) if len(parent_directory) != 0 else "", path)
 
     elif path.startswith("~/") or path.startswith("/"):
         if path.startswith("~/"):
@@ -90,7 +91,7 @@ def cd(filesystem: zipfile.ZipFile, current_path: str, path: str) -> str:
 
 
 def cat(filesystem: zipfile.ZipFile, current_path: str, args: list):
-    """ Outputs the contents of the files passed as arguments """
+    """ Outputs the contents of the files passed as arguments. """
 
     for filename in args[1::]:
         filepath = cd(filesystem, current_path, filename)
@@ -106,16 +107,16 @@ def cat(filesystem: zipfile.ZipFile, current_path: str, args: list):
 
 
 def get_filesystem(filename: str) -> zipfile.ZipFile:
-    """ Returns a zipfile.ZipFile object if a file system image exists along the passed path """
+    """ Returns a zipfile.ZipFile object if a file system image exists along the passed path. """
 
-    if not zipfile.is_zipfile(filepath):
+    if not zipfile.is_zipfile(filename):
         exit("File system image not found.")
 
-    return zipfile.ZipFile(filepath)
+    return zipfile.ZipFile(filename)
 
 
 def execute_console(filepath: str):
-    """ Reads commands from the console and sends them for processing """
+    """ Reads commands from the console and sends them for processing. """
 
     filesystem = get_filesystem(filepath)
     current_path = ''
@@ -127,7 +128,7 @@ def execute_console(filepath: str):
 
 
 def execute_script(filepath: str, script_filename: str):
-    """ Reads commands from a file and sends them for processing """
+    """ Reads commands from a file and sends them for processing. """
 
     filesystem = get_filesystem(filepath)
     current_path = ''
@@ -139,10 +140,10 @@ def execute_script(filepath: str, script_filename: str):
 
 
 def shell(args: list, filesystem: zipfile.ZipFile, current_path: str) -> str:
-    """ Processes the passed commands and returns the modified current path """
+    """ Processes the passed commands and returns the modified current path. """
 
     if args[0] == 'pwd':
-        sys.stdout.write(f'{filepath.split("/")[-1].split(".")[0]}/{getuser()}{current_path}\n')
+        sys.stdout.write(f'{filesystem.filename.split("/")[-1].split(".")[0]}/{getuser()}{current_path}\n')
     elif args[0] == 'ls':
         ls(filesystem, current_path)
     elif args[0] == 'cd':
@@ -153,7 +154,7 @@ def shell(args: list, filesystem: zipfile.ZipFile, current_path: str) -> str:
     return current_path
 
 
-if __name__ == '__main__':  # D:/MIREA/ConfigureManaging/files/emulator_files/archive.zip
+def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-s", "--script", default=None)
     named_args = parser.parse_args(sys.argv[2:])
@@ -167,3 +168,8 @@ if __name__ == '__main__':  # D:/MIREA/ConfigureManaging/files/emulator_files/ar
         execute_script(filepath, named_args.script)
     else:
         execute_console(filepath)
+
+
+# python emulator.py files/emulator_files/archive.zip --script files/emulator_files/test_script.txt
+if __name__ == '__main__':
+    main()
