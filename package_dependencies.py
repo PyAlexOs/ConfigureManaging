@@ -5,7 +5,7 @@ import sys
 import argparse
 
 
-def get_dependencies(package_name: str) -> list:
+def get_dependencies(package_name: str, extra: list) -> list:
     """ Retrieves the dependencies of the current package, returns a list
         of the direct dependencies of the transmitted package without versions. """
 
@@ -14,14 +14,14 @@ def get_dependencies(package_name: str) -> list:
 
     try:
         if data['info']['requires_dist']:
-            return parse_dependencies(data['info']['requires_dist'])
+            return parse_dependencies(data['info']['requires_dist'], extra)
         else:
             return list()
     except KeyError:
         return list()
 
 
-def parse_dependencies(dependencies: list) -> list:
+def parse_dependencies(dependencies: list, extra: list) -> list:
     """ Truncates versions of the transmitted package list. """
 
     replace_list = ["(", ")", "[", "]", "'", '"']
@@ -30,7 +30,8 @@ def parse_dependencies(dependencies: list) -> list:
     dependencies_without_versions = list()
     for dependency in dependencies:
         if 'extra' in dependency:
-            continue
+            if not dependency.split('extra')[-1].replace('=', '').replace("'", '').replace('"', '').strip() in extra:
+                continue
 
         for element in replace_list:
             dependency = dependency.replace(element, '')
@@ -70,13 +71,13 @@ def main():
         exit("Package name wasn't given.")
 
     os.environ["PATH"] += os.pathsep + 'C:/Program Files/Graphviz/bin/'
-    libs_list = get_dependencies(name)
+    libs_list = get_dependencies(name, named_args.extra)
 
     dependencies_dict = dict()
     dependencies_dict[name] = set(libs_list)
 
     for lib in libs_list:
-        dependencies_dict[lib] = set(get_dependencies(lib))
+        dependencies_dict[lib] = set(get_dependencies(lib, list()))
         for new_dependency in dependencies_dict[lib]:
             if new_dependency not in libs_list:
                 libs_list.append(new_dependency)

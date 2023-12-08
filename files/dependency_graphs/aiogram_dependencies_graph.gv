@@ -1,46 +1,66 @@
 digraph "aiogram package dependencies" {
 	aiogram
+	aiogram -> pydantic
+	aiogram -> aiohttp
 	aiogram -> certifi
+	aiogram -> aiofiles
 	aiogram -> "magic-filter"
 	aiogram -> "typing-extensions"
-	aiogram -> aiohttp
-	aiogram -> aiofiles
-	aiogram -> pydantic
 	aiofiles
 	aiohttp
-	aiohttp -> attrs
+	aiohttp -> aiosignal
+	aiohttp -> yarl
 	aiohttp -> "async-timeout"
 	aiohttp -> multidict
-	aiohttp -> yarl
+	aiohttp -> attrs
 	aiohttp -> frozenlist
-	aiohttp -> aiosignal
 	certifi
 	"magic-filter"
 	pydantic
+	pydantic -> "typing-extensions"
 	pydantic -> "importlib-metadata"
 	pydantic -> "pydantic-core"
 	pydantic -> "annotated-types"
-	pydantic -> "typing-extensions"
 	"typing-extensions"
-	attrs
-	attrs -> "importlib-metadata"
+	"aiogram-cli"
+	"aiogram-cli" -> aiogram
+	"aiogram-cli" -> colorama
+	"aiogram-cli" -> watchfiles
+	"aiogram-cli" -> click
+	"aiogram-cli" -> "click-plugins"
+	aiosignal
+	aiosignal -> frozenlist
+	yarl
+	yarl -> "typing-extensions"
+	yarl -> idna
+	yarl -> multidict
 	"async-timeout"
 	"async-timeout" -> "typing-extensions"
 	multidict
-	yarl
-	yarl -> idna
-	yarl -> multidict
-	yarl -> "typing-extensions"
+	attrs
+	attrs -> "importlib-metadata"
 	frozenlist
-	aiosignal
-	aiosignal -> frozenlist
 	"importlib-metadata"
-	"importlib-metadata" -> zipp
 	"importlib-metadata" -> "typing-extensions"
+	"importlib-metadata" -> zipp
 	"pydantic-core"
 	"pydantic-core" -> "typing-extensions"
 	"annotated-types"
 	"annotated-types" -> "typing-extensions"
+	colorama
+	watchfiles
+	watchfiles -> anyio
+	click
+	click -> colorama
+	click -> "importlib-metadata"
+	"click-plugins"
+	"click-plugins" -> click
 	idna
 	zipp
+	anyio
+	anyio -> sniffio
+	anyio -> idna
+	anyio -> exceptiongroup
+	sniffio
+	exceptiongroup
 }
