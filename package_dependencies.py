@@ -71,7 +71,7 @@ def main():
         exit("Package name wasn't given.")
 
     os.environ["PATH"] += os.pathsep + 'C:/Program Files/Graphviz/bin/'
-    libs_list = get_dependencies(name, named_args.extra)
+    libs_list = get_dependencies(name, named_args.extra if named_args.extra else list())
 
     dependencies_dict = dict()
     dependencies_dict[name] = set(libs_list)
